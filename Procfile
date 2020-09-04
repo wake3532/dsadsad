@@ -1,1 +1,1 @@
-worker: python DSFDSFE.py
+worker: python d.py
