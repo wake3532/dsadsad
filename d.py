@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 import discord
 import asyncio
+import os
 
 client = discord.Client()
 
