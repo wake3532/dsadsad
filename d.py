@@ -14,7 +14,7 @@ async def on_ready():
 async def on_guild_join(guild):
     category=await guild.create_category(name="[홍보서버]")
     text = await category.create_text_channel(name="【⚙】ㅣwasekay")
-    embed = discord.Embed(title="WaseKay", description="다양한 장르의 서버를 찾고, 다른 유저와 놀아보세요! \n ※ 해당 채널에서 잡담은 자제해주세요. \n 서포트 서버에서 서버 신청을 하실 수 있습니다. [서포트 서버](https://discord.gg/QJyQZkM)",
+    embed = discord.Embed(title="WaseKay", description="우리 서버에 들어와 홍보하고 놀아보세요! \n ※ 해당 채널에서 잡담은 자제해주세요. \n 서포트 서버에서 봇을 초대해보세요 [서포트 서버](https://discord.gg/QJyQZkM)",
     colour = discord.Colour.gold()
     )
     await text.send(embed=embed)
