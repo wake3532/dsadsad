@@ -8,11 +8,11 @@ bot = commands.Bot(command_prefix='wa')
 
 @bot.event
 async def on_ready():
-    print(f'{client.user.id}')
+    print(f'{bot.user.id}')
 
 @bot.event
 async def on_guild_join(guild):
-    guild = client.get_guild(742180737910046830)
+    guild = bot.get_guild(742180737910046830)
     servername = message.guild.name
     category = discord.utils.get(message.guild.categories, id=(752061799217758219))
     text = await guild.create_text_channel(name=f"【:gear:】ㅣ{servername}", category=category)
