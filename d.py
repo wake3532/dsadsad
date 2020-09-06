@@ -12,13 +12,13 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    guild = bot.get_guild(742180737910046830)
-    servername = message.guild.name
-    category = discord.utils.get(message.guild.categories, id=(752061799217758219))
-    text = await guild.create_text_channel(name=f"【:gear:】ㅣ{servername}", category=category)
-    invite = await message.channel.create_invite(reason="Wasekay 서버등록에 의해 자동으로 생성된 초대링크입니다.")
+    guild1 = bot.get_guild(742180737910046830)
+    servername = guild.name
+    category = discord.utils.get(guild1.categories, id=(752061799217758219))
+    text = await guild1.create_text_channel(name=f"【:gear:】ㅣ{servername}", category=category)
+    invite = await guild.create_invite(reason="Wasekay 서버등록에 의해 자동으로 생성된 초대링크입니다.")
     await text.send(invite)
-
+    
 @bot.command()
 async def 홍보방법(ctx):
 # message 쓰고싶으면 message = ctx.message하고 하시면 됨
