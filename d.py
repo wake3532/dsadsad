@@ -13,7 +13,7 @@ async def on_ready():
 async def on_guild_join(guild):
     category=await guild.create_category(name="[홍보서버]")
     text = await category.create_text_channel(name="【:gear:】ㅣwasekay")
-    embed = discord.Embed(title="WaseKay", description="다양한 장르의 서버를 찾고, 다른 유저와 놀아보세요! \n ※ 해당 채널에서 잡담은 자제해주세요. \n 서포트 서버에서 서버 신청을 하실 수 있습니다. [서포트 서버](https://discord.gg/QJyQZkM)",
+    embed = discord.Embed(title="WaseKay", description="워스키는 봇 초대 형식 홍보하는곳입니다 ! \n ※ 이 모든걸 4학년이 제작했어요 !  \n 사이트 워스키.홈페이지.한국 들어가는 사이트 : WASEKAY.KRO.KR 또는 들어가기로 들어와보세요! [서포트 서버](https://discord.gg/QJyQZkM)",
     colour = discord.Colour.gold()
     )
     await text.send(embed=embed)
