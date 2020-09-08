@@ -1,7 +1,6 @@
-# To make a discord app you need to download discord.py with pip
-#-- coding: utf-8 --
 import discord
 import asyncio
+from captcha.image import ImageCaptcha
 
 client = discord.Client()
 
@@ -13,31 +12,57 @@ async def on_ready():
 async def on_guild_join(guild):
     category=await guild.create_category(name="[홍보서버]")
     text = await category.create_text_channel(name="【:gear:】ㅣwasekay")
-    embed = discord.Embed(title="WaseKay", description="워스키는 봇 초대 형식 홍보하는곳입니다 ! \n ※ 이 모든걸 4학년이 제작했어요 !  \n 사이트 워스키.홈페이지.한국 들어가는 사이트 : WASEKAY.KRO.KR 또는 들어가기로 들어와보세요! [서포트 서버](https://discord.gg/QJyQZkM)",
+    embed = discord.Embed(title="WaseKay", description="봇이 요청 없는 서버에 봇이 초대되었습니다.",
     colour = discord.Colour.gold()
     )
     await text.send(embed=embed)
 
 @client.event
 async def on_message(message):
-    if message.content == 'wa홍보방법':
-        embed = discord.Embed(title="Wasekay 홍보방법!", description="Wasekay 홍보는 굉장히 쉬워요!\n\n먼저 봇을 초대해보세요!\nㄴ 서버가 인식되면 Wasekay 홍보가 자동으로 시작해요.\nㄴ채널 이동은 상관없지만, 홍보 메시지는 절대로 지우지 마세요!\n\n채널이 생기면 자동으로 홍보를 해요!\nㄴ만약 누군가 당신의 홍보 채널에서 괴롭힌다구요? 바로 관리자를 불러보세요! 바로 달려올거에요!\n\n[봇 초대하기](https://discord.com/oauth2/authorize?client_id=746384600112038014&permissions=8&scope=bot)",
-        colour = discord.Colour.purple()
+    if message.content == "!인증":
+        Image_captcha = ImageCaptcha()
+        msg = ""
+        a = ""
+        for i in range(6):
+            a += str(random.randint(0, 9))
+
+        name = "Captcha.png"
+        Image_captcha.write(a, name)
+
+        await message.channel.send(file=discord.File(name))
+        embed = discord.Embed(title="어서오세요 여기는 wasekay입니다!", description = message.author.mention + ", 코드가 10초뒤 만료됩니다. 정확히 입력하십시오.", timestamp=message.created_at,
+        colour=discord.Colour.blurple()
     )
+        embed.set_footer(text="WELCOME TO SERVER LIST", icon_url="https://media.discordapp.net/attachments/731412060541288518/752696344384372816/unknown.png?width=783&height=612")
         await message.channel.send(embed=embed)
 
-    if message.content == '&서버신청':
-        servername = message.guild.name
-        serverid = message.guild.id
-        print(f'{servername} - {serverid}')
+        def check(msg):
+            return msg.author == message.author and msg.channel == message.channel
 
-    if message.content == '&서버등록':
-        guild = client.get_guild(742180737910046830)
-        servername = message.guild.name
-        category = discord.utils.get(message.guild.categories, id=(752061799217758219))
-        text = await guild.create_text_channel(name=f"【:gear:】ㅣ{servername}", category=category)
-        invite = await message.channel.create_invite(reason="Wasekay 서버등록에 의해 자동으로 생성된 초대링크입니다.")
-        await text.send(invite)
+        try:
+            msg = await client.wait_for("message", timeout=10, check=check)
+        except:
+            embed = discord.Embed(title="실패!", description = message.author.mention + ", __**수고하셨어요. 하지만 시간 **10초**가 지났어요 :( ", timestamp=message.created_at,
+            colour=discord.Colour.orange()
+    )
+            embed.set_footer(text="welcome to wasekay", icon_url="https://media.discordapp.net/attachments/731412060541288518/752696344384372816/unknown.png?width=783&height=612")
+            await message.channel.send(embed=embed)
+
+        if msg.content == a:
+            embed = discord.Embed(title="welcome", description = message.author.mention + ", __**Captcha**__인증코드가 정확합니다 여기는 wasekay입니다 !", timestamp=message.created_at,
+            colour=discord.Colour.green()
+    )
+            embed.set_footer(text="축하드려요 !", icon_url="https://media.discordapp.net/attachments/731412060541288518/752696344384372816/unknown.png?width=783&height=612")
+            await message.channel.send(embed=embed)
+            role = discord.utils.get(message.author.guild.roles, name='유저')
+            await message.author.add_roles(role)
+        
+        else:
+            embed = discord.Embed(title="다시 도전 !", description = message.author.mention + ", __**Captcha**__ 수고하셨어요 하지만 코드가 정확하지 않네요 :(", timestamp=message.created_at,
+            colour=discord.Colour.red()
+    )
+            embed.set_footer(text="welcome to wasekay", icon_url="https://media.discordapp.net/attachments/731412060541288518/752696344384372816/unknown.png?width=783&height=612")
+            await message.channel.send(embed=embed)
 
 access_token = os.environ["BOT_TOKEN"]
 bot.run(access_token)
