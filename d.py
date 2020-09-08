@@ -4,21 +4,58 @@ from captcha.image import ImageCaptcha
 
 client = discord.Client()
 
+owner = ['724769557759393837']
 @client.event
 async def on_ready():
-    print(f'{client.user.id}')
+    print('봇이 로그인 하였습니다.')
+    print(' ')
+    print('닉네임 : {}'.format(client.user.name))
+    print('아이디 : {}'.format(client.user.id))
+    
+@client.event
+async def on_ready():
+    print('봇이 로그인 하였습니다.')
+    print(' ')
+    print('닉네임 : {}'.format(client.user.name))
+    print('아이디 : {}'.format(client.user.id))
+    while True:
+        user = len(client.users)
+        server = len(client.guilds)
+        messages = ["제 접두사는 * 입니다!", "∑」FOR#1234님이 제작했어요!" , "TEAM MB" , str(user) + "분이 제 봇을 이용중입니다.", str(server) + "개의 서버에 있습니다."]
+        for (m) in range(5):
+            await client.change_presence(status=discord.Status.dnd, activity=discord.Activity(name=messages[(m)], type=discord.ActivityType.watching))
+            await asyncio.sleep(4)
 
 @client.event
-async def on_guild_join(guild):
-    category=await guild.create_category(name="[홍보서버]")
-    text = await category.create_text_channel(name="【:gear:】ㅣwasekay")
-    embed = discord.Embed(title="WaseKay", description="봇이 요청 없는 서버에 봇이 초대되었습니다.",
-    colour = discord.Colour.gold()
-    )
-    await text.send(embed=embed)
+async def on_member_join(member):
+    syschannel = member.guild.system_channel.id 
+    try:
+        embed=discord.Embed(
+            title=f'welcome to wasekay !',
+            description=f'{member}님{member.guild}에 오신것을 환영해요! !인증 이라고 말해보세요 \n현재 서버 인원수: {str(len(member.guild.members))}명',
+            colour=0x00ff00
+        )
+        embed.set_thumbnail(url=member.avatar_url)
+        await client.get_channel(syschannel).send(embed=embed)
+    except:
+        return None
+@client.event
+async def on_member_remove(member):
+    syschannel = member.guild.system_channel.id 
+    try:
+        embed=discord.Embed(
+            title=f'멤버 퇴장',
+            description=f'{member}님이{member.guild}에 퇴장 했습니다.\n현재 서버 인원수: {str(len(member.guild.members))}명',
+            colour=discord.Colour.red()
+        )
+        embed.set_thumbnail(url=member.avatar_url)
+        await client.get_channel(syschannel).send(embed=embed)
+    except:
+        return None
 
 @client.event
 async def on_message(message):
+    
     if message.content == "!인증":
         Image_captcha = ImageCaptcha()
         msg = ""
